@@ -1,0 +1,8 @@
+Determine which cultural innovation archetype
+this case most closely aligns with.
+
+Explain the routing decision briefly,
+then analyze the case using that archetype's logic.
+
+Case:
+[X]

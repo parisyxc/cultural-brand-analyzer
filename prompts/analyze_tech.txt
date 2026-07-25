@@ -1,0 +1,16 @@
+Analyze the following technology, platform, or tool
+using cultural innovation theory.
+
+Before deep analysis:
+- Determine which cultural archetype best applies
+- Briefly explain the routing decision
+
+Then analyze how the technology:
+- Reshapes identity, work, or social behavior
+- Addresses unresolved cultural or moral tension
+- Creates new rituals or symbolic practices
+
+Avoid purely functional or technical explanations.
+
+Technology:
+[X]

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cultural Brand Analyzer — tool + demo</title>
+<!--
+  SAMPLE · tool-led "极简 tool 卡片 + demo case" (second tool).
+  Cultural Brand Analyzer (built on cultural-brand-pool / Holt's Cultural Innovation Theory).
+  Input a brand/product/tech/phenomenon → output a 6-part cultural analysis.
+  Demo runs on a REAL public brand (interpretive analysis / capability demo, not client work).
+  Discipline preserved: analysis only — no market research, no recommendations, no buzzwords.
+-->
+<style>
+  :root{
+    --bg:#0A0C0F;--surface:#13161B;--surface2:#171B22;--bg2:#0E1116;
+    --border:#232A33;--border2:#2E3742;--text:#E7EAEE;--muted:#8B939F;--faint:#5C636E;
+    --accent:#93A4FF;--accent2:#5EEAD4;--warn:#F4B860;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(800px 420px at 82% -8%,rgba(147,164,255,.10),transparent 60%);}
+  .wrap{max-width:940px;margin:0 auto;padding:44px 24px 72px}
+
+  .toolcard{background:linear-gradient(180deg,rgba(147,164,255,.07),transparent 42%),var(--surface);
+    border:1px solid var(--accent);border-radius:18px;padding:30px;box-shadow:0 0 0 1px rgba(147,164,255,.25),0 16px 50px rgba(147,164,255,.07)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-size:clamp(28px,4.4vw,42px);letter-spacing:-.02em;margin:12px 0 12px;font-weight:700}
+  .lede{font-size:16px;color:var(--muted);max-width:66ch;margin:0 0 24px}
+  .io{display:flex;align-items:stretch;gap:14px;flex-wrap:wrap;margin:0 0 20px}
+  .io .box{flex:1;min-width:240px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .io .l{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+  .io .arrow{display:flex;align-items:center;font-family:var(--mono);color:var(--accent);font-size:20px;padding:0 2px}
+  .chips{display:flex;flex-direction:column;gap:7px}.chip{font-size:13.5px}.chip b{color:var(--text)}
+  .not{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin:0 0 20px}
+  .not b{color:var(--muted)}
+  .btn{font-family:var(--mono);font-size:13px;padding:11px 18px;border-radius:9px;border:1px solid var(--accent);background:var(--accent);color:#0a1030;font-weight:600;text-decoration:none;display:inline-block}
+  .btn.ghost{background:transparent;color:var(--accent)}
+  .cta-row{display:flex;gap:10px;flex-wrap:wrap}
+
+  .demo{margin-top:34px}
+  .demo-h{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+  .demo-h .tag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--warn);color:var(--warn);border-radius:6px;padding:2px 8px}
+  .demo-h h2{font-size:22px;letter-spacing:-.01em;margin:0;font-weight:680}
+  .demo-sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+  .inputs{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:22px;font-size:13.5px}
+  .inputs .row{display:flex;gap:10px;margin:6px 0;flex-wrap:wrap}
+  .inputs .k{font-family:var(--mono);font-size:11px;color:var(--faint);min-width:130px;text-transform:uppercase;letter-spacing:.06em}
+  .inputs .v{color:var(--text);flex:1;min-width:200px}
+
+  .out-k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  .steps{display:flex;flex-direction:column;gap:12px}
+  .step{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative}
+  .step .n{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.06em}
+  .step h3{margin:5px 0 6px;font-size:15.5px;font-weight:640}
+  .step p{margin:0;font-size:13.5px;color:var(--muted)}
+  .step .arch{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent2);border:1px solid var(--accent2);border-radius:6px;padding:2px 8px;margin-top:4px}
+  .step .sec{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:8px}
+  .note{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:22px;border-top:1px dashed var(--border2);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TOOL CARD -->
+  <div class="toolcard">
+    <div class="eyebrow">Tool · Cultural strategy</div>
+    <h1>Cultural Brand Analyzer</h1>
+    <p class="lede">Give it a brand, product, technology, or social phenomenon — get back a cultural analysis: the archetype it belongs to, the cultural tension it resolves, the ideology that's failing around it, and the myth, symbols, and rituals it uses. Grounded in Douglas Holt's Cultural Innovation Theory.</p>
+
+    <div class="io">
+      <div class="box">
+        <div class="l">Input</div>
+        <div class="chips">
+          <div class="chip"><b>Subject</b> — a brand · product · technology · phenomenon</div>
+          <div class="chip"><b>Context</b> (optional) — what it is, category, background</div>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="box">
+        <div class="l">Output — a cultural analysis</div>
+        <div class="chips">
+          <div class="chip"><b>Archetype</b> → <b>Tension</b> → <b>Failing ideology</b> → <b>Myth &amp; symbols</b> → <b>Cultural authority</b></div>
+        </div>
+      </div>
+    </div>
+    <p class="not"><b>Deliberately not:</b> market research · SWOT · positioning copy · growth recommendations. It reads meaning, not tactics — that restraint is the point.</p>
+
+    <div class="cta-row">
+      <a class="btn" href="#demo">See a demo output ↓</a>
+      <a class="btn ghost" href="#">Run it on your brand</a>
+    </div>
+  </div>
+
+  <!-- DEMO -->
+  <div class="demo" id="demo">
+    <div class="demo-h">
+      <span class="tag">Demo · public brand · analysis (not client work)</span>
+      <h2>What it produces</h2>
+    </div>
+    <p class="demo-sub">An interpretive cultural analysis of a well-known public brand — a capability demo, not a claim about the company's results.</p>
+
+    <div class="inputs">
+      <div class="row"><div class="k">Subject</div><div class="v"><b>Liquid Death</b> — canned water, "Murder Your Thirst"</div></div>
+      <div class="row"><div class="k">Context</div><div class="v">A beverage brand selling plain water &amp; sparkling water in tallboy cans with death-metal / horror branding</div></div>
+    </div>
+
+    <div class="out-k">Output · cultural analysis (6-step reasoning loop)</div>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01 · Object type</div>
+        <h3>Brand (beverage)</h3>
+        <p>A consumer brand acting as a cultural text — the analysis reads it as meaning, not as a product.</p>
+      </div>
+      <div class="step">
+        <div class="n">02 · Primary archetype</div>
+        <h3>Ideological Innovation <span class="sec">secondary: Cultural Codes &amp; Symbolic Compression</span></h3>
+        <span class="arch">1 of 7 · Ideological Innovation</span>
+        <p>It innovates against a rigid dominant ideology rather than adding a product benefit; its mechanism is compressing punk / metal / horror codes onto the most "wholesome" object.</p>
+      </div>
+      <div class="step">
+        <div class="n">03 · Cultural tension</div>
+        <h3>"Being healthy" has become an earnest, virtuous identity</h3>
+        <p>Wellness and sobriety read as moralizing, self-optimizing, and aesthetically earnest. People who identify with rebellion, irreverence, or party culture feel hydration and "taking care of yourself" isn't for them — the tension between wanting to be healthy and refusing the wellness persona.</p>
+      </div>
+      <div class="step">
+        <div class="n">04 · Ideological vacuum</div>
+        <h3>Clean-living-as-virtue is destabilizing</h3>
+        <p>The dominant "self-care as moral project" ideology is fatiguing a younger audience. There's a gap: no way to perform hydration or sobriety while keeping an irreverent, anti-establishment identity. Nothing occupies "healthy, but not earnest."</p>
+      </div>
+      <div class="step">
+        <div class="n">05 · Cultural solution / myth</div>
+        <h3>Hydration as rebellion</h3>
+        <p><b>Myth:</b> water as an act of defiance, not virtue. <b>Symbols:</b> the melting skull, horror typography, an aluminum tallboy that mimics a beer can. <b>Rituals:</b> cracking a "Liquid Death" at a show or skatepark instead of a beer; performing irreverence ("Murder Your Thirst," "Sell Your Soul" merch). It lets rebels drink water without betraying their identity.</p>
+      </div>
+      <div class="step">
+        <div class="n">06 · Cultural authority</div>
+        <h3>Punk / hardcore &amp; heavy-metal subculture; anti-corporate DIY ethos</h3>
+        <p>Legitimized by genuine subcultural aesthetics (not a costume) and by parodying corporate-wellness and energy-drink macho codes — borrowing the moral authority of anti-establishment culture to make the myth credible.</p>
+      </div>
+    </div>
+
+    <div class="note">↳ Note the discipline: the output stays interpretive — no features, no "you should…" recommendations. The value is the cultural read itself, which everything downstream (positioning, content) can then stand on.</div>
+  </div>
+
+</div>
+</body>
+</html>
