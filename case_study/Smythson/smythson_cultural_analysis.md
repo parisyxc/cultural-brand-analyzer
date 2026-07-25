@@ -1,3 +1,9 @@
+> This case study is a research output generated using
+> the Cultural Strategy Lab skill.
+>
+> It is not a canonical framework document and should
+> not be treated as theoretical ground truth.
+
 # Cultural Innovation Analysis: Smythson
 
 **Analysis Date:** January 20, 2026
