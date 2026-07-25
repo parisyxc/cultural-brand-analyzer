@@ -1,9 +1,12 @@
 
 ---
 
-# Installing Cultural Strategy Lab into Claude (User Guide)
+# Installing Cultural Brand Analyzer into Claude (User Guide)
 
-This guide explains how to install and use **Cultural Strategy Lab** as a local skill inside **Claude Code / Claude Desktop**.
+This guide explains how to install and use **Cultural Brand Analyzer** as a local skill inside **Claude Code / Claude Desktop**.
+
+> The skill's internal reasoning name is *Cultural Strategy Lab* — that's what you invoke in prompts.
+> The repo and folder are named `cultural-brand-analyzer` (the public tool name).
 
 No API key is required.
 
@@ -14,13 +17,13 @@ No API key is required.
 Clone or download the repository:
 
 ```bash
-git clone https://github.com/parisyxc/skills.git
+git clone https://github.com/parisyxc/cultural-brand-analyzer.git
 ```
 
-Navigate to the Cultural Strategy Lab directory:
+Enter the directory:
 
 ```bash
-cd skills/Cultural-Strategy-Lab
+cd cultural-brand-analyzer
 ```
 
 ---
@@ -29,24 +32,26 @@ cd skills/Cultural-Strategy-Lab
 
 Claude uses a local directory to store skills.
 
-Copy the entire `Cultural-Strategy-Lab` folder into your Claude skills directory:
+Copy the folder into your Claude skills directory:
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -r Cultural-Strategy-Lab ~/.claude/skills/
+cp -r cultural-brand-analyzer ~/.claude/skills/
 ```
 
 After copying, your directory structure should look like this:
 
 ```bash
 ~/.claude/skills/
-└── Cultural-Strategy-Lab/
+└── cultural-brand-analyzer/
     ├── SKILL.md
+    ├── TOOL-SPEC.md
     ├── ACTIVATE.md
     ├── DEACTIVATE.md
     ├── context_documents/
     ├── examples/
     ├── prompts/
+    ├── case_study/
     └── README.md
 ```
 
@@ -141,8 +146,9 @@ No. This skill works entirely through local context and prompt control.
 
 ### Is this a Claude plugin?
 
-No. Claude currently does not support user-installed plugins.
-This skill operates as a **local cognitive framework**.
+It can be. This repo ships a `.claude-plugin/plugin.json`, so it can be installed as a plugin
+in clients that support them. It also works perfectly well as a plain local skill —
+the reasoning lives in `SKILL.md` and the context files, not in any plugin machinery.
 
 ### Will Claude always remember the skill?
 
@@ -152,7 +158,7 @@ No. You must activate it in each new session.
 
 ## Summary
 
-Installing Cultural Strategy Lab means:
+Installing Cultural Brand Analyzer means:
 
 * Copying it into `~/.claude/skills/`
 * Activating it explicitly at session start
@@ -164,10 +170,8 @@ Once installed, it behaves like a reusable cognitive skill inside Claude.
 
 ## Final Note
 
-Cultural Strategy Lab is not a tool.
-It is a way of thinking.
-
-Use it accordingly.
+Cultural Brand Analyzer is packaged as a tool, but what it really gives you is a way of thinking.
+It reads cultural meaning — it does not hand you tactics. Use it accordingly.
 
 ---
 
