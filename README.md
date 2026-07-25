@@ -1,169 +1,104 @@
+# Cultural Brand Analyzer
+
+> **EN** — Read a brand's meaning, not its tactics. Grounded in Douglas Holt's Cultural Innovation Theory.
+>
+> **中文** —— 读一个品牌的**意义**，而不是它的战术。基于 Douglas Holt 文化创新理论。
 
 ---
 
-# Getting Started（本地使用 · 无需 API）
+## 1 · 是什么 · What this is
 
-Cultural Strategy Lab **不要求你调用任何 API 才能使用**。
+**中文** —— **Cultural Brand Analyzer** 输入一个品牌 / 产品 / 技术 / 社会现象，输出一份**文化分析**：它属于哪个文化原型、化解了什么文化张力、哪种主导意识形态正在失效、以及它用什么神话 / 符号 / 仪式来回应。基于 Holt 文化创新理论。
 
-这是一个**文化推理 Skill（Cognitive Skill）**，核心价值在于：
-
-* `SKILL.md`：文化推理规则（Skill Contract）
-* `context_documents/`：长期文化知识与案例
-* `prompts/`：可复用的分析入口
-* `examples/`：验证推理是否稳定的参考集
-* `ACTIVATE.md`：快速激活使用Cultural Strategy Lab
-* `DEACTIVATE.md`：快速退出使用Cultural Strategy Lab
-
-你可以把它当作一个**可被 Claude / 任何 LLM 加载的文化思维系统**。
+**EN** — Give it a brand, product, technology, or social phenomenon, and it returns a **cultural analysis**: which cultural archetype it belongs to, which cultural tension it resolves, which dominant ideology is failing, and the myth / symbols / rituals it uses to respond.
 
 ---
 
-## 1. 本地使用方式（推荐）
+## 2 · Input → Output 契约 · The contract
 
-### 方式 A：作为 Claude Code / Claude Desktop 的本地 Skill
+### INPUT（用户提供 · what you provide）
 
-这是**最推荐的使用方式**，不涉及任何 API。
+| | 中文 | EN |
+|---|---|---|
+| `subject` | 要分析的对象：一个品牌 / 组织 / 技术 / 产品 / 社会现象 | The object of analysis: a brand · organization · technology · product · social phenomenon |
+| `context` *(可选 / optional)* | 它是什么、品类、背景 | What it is, its category, background |
 
-#### Step 1：放置 Skill
+### OUTPUT（严格按 6 步推理环 · the fixed 6-step reasoning loop）
 
-将整个项目放入：
+| # | 步骤 | 中文 | EN |
+|---|---|---|---|
+| 1 | **Object type** | 对象归类（品牌·组织 / 技术·平台 / 产品 / 文化·社会现象） | Object classification (brand·org / tech·platform / product / cultural·social phenomenon) |
+| 2 | **Primary archetype** | 一个主文化原型（7 选 1，见下） | One primary cultural archetype (1 of 7, below) |
+| 3 | **Cultural tension** | 未解的社会 / 道德 / 身份张力 | The unresolved social / moral / identity tension |
+| 4 | **Ideological vacuum** | 哪种主导意识形态正在失效或松动 | Which dominant ideology is failing or loosening |
+| 5 | **Cultural solution / myth** | 化解张力的神话 + 符号 + 仪式 | The myth + symbols + rituals that resolve the tension |
+| 6 | **Cultural authority** | 分析锚定的文化 / 历史 / 制度来源 | The cultural / historical / institutional source the analysis anchors to |
 
-```bash
-~/.claude/skills/Cultural-Strategy-Lab/
+> **一句话：输入一个文化行动者，拿一份结构化的文化战略分析。**
+> **In one line: put in a cultural actor, get back a structured cultural-strategy analysis.**
+
+### 7 个固定原型 · The 7 fixed archetypes
+
+`Ideological Innovation` · `Mythic Corporation` · `Ideological Hotspot` · `Cultural Codes & Symbolic Compression` · `Cultural Capital Commodification` · `Activism as Lifestyle` · `Product as Myth`
+
+**每个 case 只赋 1 个主原型；次原型须先论证主原型后才提。**
+Each case is assigned **exactly one** primary archetype; a secondary archetype may only be raised *after* the primary one has been argued.
+
+---
+
+## 3 · 明确不做 · Deliberately *not*
+
+市场调研 · SWOT · 定位文案 · 增长建议。它读的是意义，不是战术——**这份克制本身就是它的价值。**
+
+Market research · SWOT · positioning copy · growth recommendations. It reads meaning, not tactics — that restraint is the point.
+
+---
+
+## 4 · 仓库结构 · What's in this repo
+
+| Path | What it is |
+|------|-----------|
+| `SKILL.md` | 文化推理规则（Skill Contract）· the cultural reasoning rules |
+| `TOOL-SPEC.md` | Input → output 契约与工具化定位 · the I/O contract and tool framing |
+| `context_documents/` | 长期文化知识 + 已验证案例（Nike, Patagonia, Marlboro, Ben & Jerry's, Starbucks…） |
+| `prompts/` | 可复用的分析入口 · reusable analysis entry points |
+| `examples/` | 推理稳定性验证集 · a reasoning-stability reference set |
+| `case_study/` | **完整分析案例** — Smythson (Mythic Corporation) · Rapha (Cultural Capital Commodification)，含一份 archetype routing 决策记录 |
+| `demo/cultural-brand-analyzer-demo.html` | 公开品牌的分析 demo (Liquid Death) |
+| `ACTIVATE.md` / `DEACTIVATE.md` | 快速激活 / 退出 · quick load / unload |
+| `INSTALL.md` · `USAGE.md` | 安装与本地使用指南（无需 API）· install & local-usage guide (no API required) |
+
+---
+
+## 5 · 怎么用 · Use it
+
+**不需要 API** —— 见 `USAGE.md` / `INSTALL.md`。把它作为本地 skill 载入 Claude，然后让它按 `SKILL.md` 的推理规则、结合 `context_documents/` 分析你的对象。
+
+No API needed — see `USAGE.md` / `INSTALL.md`. Load it as a local skill in Claude, then ask it to analyze a subject using the reasoning rules in `SKILL.md` and the cases in `context_documents/`.
+
+一个最小用法 · a minimal invocation:
+
+```
+使用 Cultural Strategy Lab 的推理规则，
+从文化张力、意识形态真空和神话结构三个层面分析 Patagonia。
 ```
 
-结构示例：
+---
 
-```bash
-.claude/skills/Cultural-Strategy-Lab/
-├─ SKILL.md
-├─ context_documents/
-├─ prompts/
-├─ examples/
-└─ README.md
-```
+## 使用心法 · How to hold it
 
-#### Step 2：在 Claude Code 中使用
+* 不要问「这个品牌做得好不好」，而要问「**它在解决什么文化矛盾**」。
+* 不要急着要结论，允许 tension 先展开。
+* 这是一个**思考工具**，不是答案生成器。
 
-在 Claude Code / Claude Desktop 中：
-
-1. 打开任意项目或空白会话
-2. 明确告诉 Claude：
-
-> 请使用 `Cultural Strategy Lab` Skill
-> 并遵循 `SKILL.md` 中的推理规则
-> 结合 `context_documents/` 进行分析
-
-3. 然后输入你的分析请求，例如：
-
-> Analyze Patagonia using cultural innovation theory.
-
-📌 **此方式完全不需要 API key，也不会产生费用**
-📌 Claude 会把这套 Skill 当作“长期上下文 + 推理约束”
+Don't ask "is this brand doing well" — ask "**what cultural contradiction is it resolving**." Don't rush the conclusion; let the tension unfold first. This is a thinking tool, not an answer generator.
 
 ---
 
-## 2. 使用 prompts 进行结构化分析（无代码）
+**关于案例与 demo · On the examples and case studies:** 本仓库引用的每个品牌都只基于公开材料分析。这些是解读性的文化研究——能力演示，不是客户工作，也不是对任何公司内部战略或经营结果的判断。
 
-如果你希望**每次分析都有稳定结构**，可以直接使用 `prompts/` 目录中的文件。
-
-例如：
-
-```text
-prompts/analyze_brand.txt
-```
-
-你可以在 Claude 中这样说：
-
-> 使用 analyze_brand 的结构，
-> 按 Cultural Strategy Lab 的方法分析 Patagonia。
-
-这适合：
-
-* 咨询 / 研究场景
-* 写分析报告
-* 做文化洞察练习
+Every brand referenced in this repo is analyzed from public material only. These are interpretive cultural readings — capability demonstrations, not client work, and not claims about any company's internal strategy or results.
 
 ---
 
-## 3. 使用 examples 作为参考与自检
-
-`examples/` 不是 demo，而是**推理稳定性验证集**。
-
-你可以：
-
-* 先阅读 examples
-* 再对照 Claude 的输出
-* 判断是否出现：
-
-  * feature 化
-  * 市场化
-  * archetype 跑偏
-
-如果输出和 examples 的逻辑一致，说明 Skill 正常工作。
-
----
-
-## 4. 关于 API（可选，而非必需）
-
-> **你不需要 API 才能使用 Cultural Strategy Lab。**
-
-项目中提供的 `api/` 目录仅用于：
-
-* 研究型自动化
-* 批量分析
-* 工程集成
-
-如果你只是：
-
-* 做文化分析
-* 写研究
-* 思考品牌与社会
-
-👉 **完全可以忽略 `api/` 目录。**
-
----
-
-## 5. 推荐的使用心法（非常重要）
-
-在使用本 Skill 时，请记住：
-
-* 不要问“这个品牌做得好不好”
-* 而是问“它在解决什么文化矛盾”
-* 不要急着要结论
-* 而是允许 tension 先展开
-
-这是一个**思考工具，而不是答案生成器**。
-
----
-
-## 6. 最小使用示例（纯自然语言）
-
-你可以直接对 Claude 说：
-
-> 使用 Cultural Strategy Lab，
-> 从文化矛盾、意识形态真空和神话结构三个层面，
-> 分析 Patagonia。
-
-或者：
-
-> 用文化创新理论分析 Quiet Quitting，
-> 并判断它最接近哪一种文化原型。
-
----
-
-## 总结一句话
-
-> **Cultural Strategy Lab 首先是一个“文化思维系统”，
-> 其次才是一个可调用的程序。**
-
-你可以：
-
-* 只用 Markdown + Claude
-* 不写一行代码
-* 不花一分钱
-* 但仍然完整使用这个 Skill
-
----
-
-
+*Part of theAgenticMarketing — a marketing toolkit for founders, solo operators, and agency owners. Examples and demos use public brands only; no client work is included.*
